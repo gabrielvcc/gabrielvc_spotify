@@ -662,6 +662,109 @@ body
     font-weight: 600;
 }
 
-.playlist-instance-container {
-    margin-bottom: 20px;
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header h2 {
+    margin-bottom: 10px;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.time-range-selector {
+    position: relative;
+}
+
+#time-range-display {
+    margin-bottom: 8px;
+    background-color: transparent;
+    border: none;
+    color: var(--spotify-green);
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px;
+}
+
+#time-range-display .fa-chevron-down {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+#time-range-display.active .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 120%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    width: 220px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdown-menu.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dropdown-menu button:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-menu button.active {
+    background-color: var(--spotify-green);
+    color: white;
+    font-weight: 600;
+}
+
+.sidebar-footer {
+    margin-top: auto; 
+    padding-top: 0px; 
+    width: 100%;
+    text-align: center;
+    font-size: 0.70rem;
+    color: var(--sidebar-text-secondary); 
+}
+
+.sidebar-footer .credit-link {
+    color: #cccccc;
+    font-weight: 600;
+    text-decoration: none; 
+    cursor: pointer;
+    transition: color 0.3s ease; 
+}
+
+.sidebar-footer .credit-link:hover {
+    color: var(--spotify-green); 
 }

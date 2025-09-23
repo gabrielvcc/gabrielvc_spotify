@@ -115,51 +115,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchTopTracks(timeRange = 'short_term') {
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/top-tracks?time_range=${timeRange}`);
-            const tracks = await response.json();
-            
-            topTrackHighlightContainer.innerHTML = '';
-            topTracksGridContainer.innerHTML = '';
-            
-            if (tracks.length > 0) {
-                const highlightTrack = tracks[0];
-                const highlightElement = document.createElement('div');
-                highlightElement.className = 'top-track-highlight';
-                highlightElement.innerHTML = `
-                    <img src="${highlightTrack.album.images[1].url}" alt="${highlightTrack.album.name}" class="item-art">
-                    <div class="item-info">
-                        <div class="item-name">${highlightTrack.name}</div>
-                        <div class="item-artist">${highlightTrack.artists.map(a => a.name).join(', ')}</div>
-                    </div>`;
-                highlightElement.addEventListener('click', () => openModal(highlightTrack));
-                topTrackHighlightContainer.appendChild(highlightElement);
-                applyMarquee(highlightElement.querySelector('.item-name'));
-                applyMarquee(highlightElement.querySelector('.item-artist'));
-
-                tracks.slice(1).forEach((track, index) => {
-                    const gridElement = document.createElement('div');
-                    gridElement.className = 'top-track-grid-item';
-                    gridElement.innerHTML = `
-                        <span class="item-rank">${index + 2}</span>
-                        <img src="${track.album.images[2].url}" alt="${track.album.name}" class="item-art">
-                        <div class="item-info">
-                            <div class="item-name">${track.name}</div>
-                            <div class="item-artist">${track.artists.map(a => a.name).join(', ')}</div>
-                        </div>`;
-                    gridElement.addEventListener('click', () => openModal(track));
-                    topTracksGridContainer.appendChild(gridElement);
-                    applyMarquee(gridElement.querySelector('.item-name'));
-                    applyMarquee(gridElement.querySelector('.item-artist'));
-                });
-            }
-            topTracksLoader.style.display = 'none';
-        } catch (error) {
-            topTrackHighlightContainer.innerHTML = '<p>Não foi possível carregar as músicas mais tocadas.</p>';
-            topTracksLoader.style.display = 'none';
-            console.error("Erro ao buscar top tracks:", error);
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/top-tracks?time_range=${timeRange}`);
+        // Verificação de erro na resposta
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const tracks = await response.json();
+        
+        topTrackHighlightContainer.innerHTML = '';
+        topTracksGridContainer.innerHTML = '';
+        
+        if (tracks.length > 0) {
+            const highlightTrack = tracks[0];
+            const highlightElement = document.createElement('div');
+            highlightElement.className = 'top-track-highlight';
+            highlightElement.innerHTML = `
+                <img src="${highlightTrack.album.images[1].url}" alt="${highlightTrack.album.name}" class="item-art">
+                <div class="item-info">
+                    <div class="item-name">${highlightTrack.name}</div>
+                    <div class="item-artist">${highlightTrack.artists.map(a => a.name).join(', ')}</div>
+                </div>`;
+            highlightElement.addEventListener('click', () => openModal(highlightTrack));
+            topTrackHighlightContainer.appendChild(highlightElement);
+            applyMarquee(highlightElement.querySelector('.item-name'));
+            applyMarquee(highlightElement.querySelector('.item-artist'));
+
+            tracks.slice(1).forEach((track, index) => {
+                const gridElement = document.createElement('div');
+                gridElement.className = 'top-track-grid-item';
+                gridElement.innerHTML = `
+                    <span class="item-rank">${index + 2}</span>
+                    <img src="${track.album.images[2].url}" alt="${track.album.name}" class="item-art">
+                    <div class="item-info">
+                        <div class="item-name">${track.name}</div>
+                        <div class="item-artist">${track.artists.map(a => a.name).join(', ')}</div>
+                    </div>`;
+                gridElement.addEventListener('click', () => openModal(track));
+                topTracksGridContainer.appendChild(gridElement);
+                applyMarquee(gridElement.querySelector('.item-name'));
+                applyMarquee(gridElement.querySelector('.item-artist'));
+            });
+        }
+        topTracksLoader.style.display = 'none';
+    } catch (error) {
+        topTrackHighlightContainer.innerHTML = '<p>Não foi possível carregar as músicas mais tocadas.</p>';
+        topTracksLoader.style.display = 'none';
+        console.error("Erro ao buscar top tracks:", error);
     }
+}
     
     async function fetchPlaylists() {
         const playlistsContainer = document.getElementById('playlist-container');
@@ -248,6 +252,50 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+const timeRangeDisplay = document.getElementById('time-range-display');
+const timeRangeText = document.getElementById('time-range-text');
+const timeRangeMenu = document.getElementById('time-range-menu');
+
+if (timeRangeDisplay) { // Garante que o código só rode se os elementos existirem
+    // Mostra/esconde o menu ao clicar no botão de texto
+    timeRangeDisplay.addEventListener('click', (event) => {
+        event.stopPropagation();
+        timeRangeMenu.classList.toggle('active');
+        timeRangeDisplay.classList.toggle('active'); // Para a animação da setinha
+    });
+
+    // Ação ao clicar em um botão do menu
+    timeRangeMenu.addEventListener('click', (event) => {
+        if (event.target.tagName === 'BUTTON') {
+            const selectedRange = event.target.dataset.range;
+            const selectedText = event.target.dataset.text;
+
+            // Remove a classe 'active' de todos os botões e adiciona no clicado
+            timeRangeMenu.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 1. ATUALIZA O TEXTO DO BOTÃO PRINCIPAL
+            timeRangeText.textContent = selectedText;
+            
+            // 2. Mostra o loader e limpa o conteúdo antigo
+            topTracksLoader.style.display = 'block';
+            topTrackHighlightContainer.innerHTML = '';
+            topTracksGridContainer.innerHTML = '';
+            
+            // 3. Busca as novas músicas com o período de tempo escolhido
+            fetchTopTracks(selectedRange);
+        }
+    });
+}
+
+// Fecha o menu se clicar em qualquer outro lugar da página
+document.addEventListener('click', () => {
+    if (timeRangeMenu && timeRangeMenu.classList.contains('active')) {
+        timeRangeMenu.classList.remove('active');
+        timeRangeDisplay.classList.remove('active'); // Para a animação da setinha
+    }
+});
 
     const timeRangeButtons = document.querySelectorAll('.time-range-selector button');
     if (timeRangeButtons.length > 0) {

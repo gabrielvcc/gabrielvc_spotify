@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify - gabrielvc</title>
+    <title>Spotify Gabrielvc</title>
+    <link rel="icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="http://googleusercontent.com/fontawesome-free/6.5.2/css/all.min.css" />
 </head>
 <body>
 
@@ -13,23 +15,33 @@
         <main class="main-content">
             <header class="main-header">
                 <!-- Foto de perfil será inserida aqui via JS -->
-                <h1>Spotify <span class="highlight">gabrielvc</span></h1>
+                <h1>Spotify <span class="highlight">Gabrielvc</span></h1>
             </header>
 
             <section id="top-tracks-section" class="content-section">
-                <h2>Mais Tocadas do Mês</h2>
-                <!-- Novo layout para Top Tracks -->
+                <div class="section-header">
+                    <h2>Mais Escutadas</h2>
+                    <div class="time-range-selector">
+                        <button id="time-range-display">
+                            <span id="time-range-text">No último mês</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                            <div class="dropdown-menu" id="time-range-menu">
+                                <button data-range="short_term" data-text="no último mês" class="active">No último mês</button>
+                                <button data-range="medium_term" data-text="nos últimos 6 meses">Nos últimos 6 meses</button>
+                                <button data-range="long_term" data-text="desde sempre">Desde sempre</button>
+                            </div>
+                    </div>
+                </div>
                 <div id="top-track-highlight-container"></div>
                 <div id="top-tracks-grid-container"></div>
-                
-                <!-- Placeholder de carregamento -->
                 <div id="top-tracks-loader">
                     <div class="skeleton-loader large"></div>
                 </div>
             </section>
 
             <section id="playlist-section" class="content-section">
-                <h2>Playlist em Destaque</h2>
+                <h2>Playlists em Destaque</h2>
                 <div id="playlist-container">
                     <div class="skeleton-loader large"></div>
                 </div>
@@ -65,6 +77,12 @@
             </div>
             <div id="offline-container" class="player-wrapper">
                 <p>Nada a tocar no momento...</p>
+            </div>
+            <div class="sidebar-footer">
+                desenvolvido por
+                <a href="https://twitter.com/gabrielvcc" target="_blank" rel="noopener noreferrer" class="credit-link">gabrielvc</a> 
+                | todos os direitos reservados ® -
+                <a href="/atualizacoes" target="_blank" rel="noopener noreferrer" class="credit-link">v1.0.1</a> 
             </div>
         </aside>
     </div>
