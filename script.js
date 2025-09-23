@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchTopTracks();
         fetchPlaylists();
         updateNowPlaying();
-        setInterval(updateNowPlaying, 1000); 
+        setInterval(updateNowPlaying, 3000); 
     }
 
     init();
