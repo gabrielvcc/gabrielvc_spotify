@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchTopTracks(timeRange = 'short_term') {
         try {
-            const response = await fetch(`/api/top-tracks?time_range=${timeRange}`);
+            const response = await fetch(`${API_BASE_URL}/api/top-tracks?time_range=${timeRange}`);
             const tracks = await response.json();
             
             topTrackHighlightContainer.innerHTML = '';
