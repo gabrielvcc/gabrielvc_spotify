@@ -1,0 +1,667 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root
+{
+    --spotify-green: #1DB954;
+    --background-color: #EAEAEA;
+    --text-primary: #2e2e2e;
+    --text-secondary: #535353;
+    --border-color: #DCDCDC;
+    --sidebar-bg: #2e2e2e;
+    --sidebar-text-primary: #FFFFFF;
+    --sidebar-text-secondary: #B3B3B3;
+    --sidebar-progress-bg: #535353;
+}
+
+*
+{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+}
+
+.dashboard-container
+{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.main-content
+{
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+    min-width: 0; 
+}
+
+.main-header
+{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-picture
+{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--spotify-green);
+    transition: transform 0.2s ease;
+}
+
+.profile-picture:hover
+{
+    transform: scale(1.1);
+}
+
+.main-header h1
+{
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.main-header .highlight
+{
+    color: var(--spotify-green);
+}
+
+.content-section
+{
+    margin-top: 40px;
+}
+
+.content-section h2
+{
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+#top-track-highlight-container
+{
+    margin-bottom: 30px;
+}
+
+.top-track-highlight
+{
+    display: flex;
+    align-items: center;
+    gap: 20px; 
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.top-track-highlight .item-art
+{
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+}
+
+.top-track-highlight .item-info .item-name
+{
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.top-track-highlight .item-info .item-artist
+{
+    font-size: 1.1rem;
+}
+
+#top-tracks-grid-container
+{
+    display: grid;
+    /* AJUSTADO: Diminuída a largura mínima para caber 3 colunas */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+    gap: 20px;
+}
+
+.top-track-grid-item
+{
+    background-color: #fdfdfd;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.top-track-grid-item .item-rank
+{
+    font-size: 1.5rem;
+}
+
+.top-track-grid-item .item-art
+{
+    width: 60px;
+    height: 60px;
+}
+
+.playlist-header
+{
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease;
+}
+
+.playlist-header:hover
+{
+    transform: scale(1.02);
+}
+
+.playlist-cover
+{
+    width: 80px;
+    height: 80px;
+    border-radius: 6px;
+    margin-right: 20px;
+}
+
+.playlist-info h3
+{
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.playlist-info p
+{
+    margin: 5px 0 0;
+    color: var(--text-secondary);
+}
+
+.playlist-tracks
+{
+    margin-top: 15px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.playlist-tracks.visible
+{
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.playlist-tracks::-webkit-scrollbar
+{
+    width: 8px;
+}
+
+.playlist-tracks::-webkit-scrollbar-track
+{
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.playlist-tracks::-webkit-scrollbar-thumb
+{
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.playlist-tracks::-webkit-scrollbar-thumb:hover
+{
+    background: #aaa;
+}
+
+.list-container .list-item
+{
+    display: grid;
+    grid-template-columns: 40px 65px minmax(0, 1.5fr) minmax(0, 1fr) 120px;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 10px;
+    /* AJUSTADO: Adicionada a linha divisória */
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+}
+
+/* AJUSTADO: Remove a linha da última música da lista */
+.list-container .list-item:last-child
+{
+    border-bottom: none;
+}
+
+.list-container .list-item.top-track
+{
+    grid-template-columns: 40px 65px 1fr;
+}
+
+.list-container .list-item:hover
+{
+    background-color: #f0f0f0;
+}
+
+.item-rank,
+.item-count
+{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.item-art
+{
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+}
+
+.item-info,
+.item-album,
+.item-date-added
+{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.item-name
+{
+    font-weight: 600;
+}
+
+.item-artist,
+.item-album,
+.item-date-added
+{
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.sidebar
+{
+    width: 420px;
+    min-width: 420px; 
+    flex-shrink: 0;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text-primary);
+    border-left: 1px solid var(--border-color);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-header
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+
+.sidebar-header .fa-spotify
+{
+    color: var(--spotify-green);
+    font-size: 2.5rem;
+}
+
+.player-wrapper
+{
+    width: 100%;
+    text-align: center;
+    transition: opacity 0.5s ease;
+}
+
+.player-wrapper.hidden
+{
+    display: none;
+}
+
+#offline-container
+{
+    color: var(--sidebar-text-secondary);
+    font-weight: 600;
+    margin-top: 50px;
+}
+
+#album-art
+{
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    margin-bottom: 20px;
+}
+
+.song-title-wrapper
+{
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+#song-name
+{
+    margin: 0;
+    font-size: 1.3rem;
+    white-space: nowrap;
+}
+
+#song-name + span
+{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    padding-left: 2em;
+    white-space: nowrap;
+}
+
+.song-title-wrapper:hover #song-name
+{
+    animation: marquee 10s linear infinite;
+}
+
+.song-title-wrapper:hover #song-name + span
+{
+    display: inline-block;
+    animation: marquee2 10s linear infinite;
+}
+
+@keyframes marquee
+{
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes marquee2
+{
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+#artist-name
+{
+    margin: 5px 0 15px 0;
+    color: var(--sidebar-text-secondary);
+}
+
+.progress-bar-wrapper
+{
+    height: 6px;
+    background-color: var(--sidebar-progress-bg);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#progress-bar
+{
+    width: 0%;
+    height: 100%;
+    background-color: var(--spotify-green);
+    transition: width 0.2s linear;
+}
+
+.time-container
+{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--sidebar-text-secondary);
+    margin-top: 5px;
+}
+
+.share-button
+{
+    background-color: var(--spotify-green);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.share-button:hover
+{
+    background-color: #1ed760;
+    transform: scale(1.05);
+}
+
+.share-button:active
+{
+    transform: scale(1);
+}
+
+.skeleton-loader
+{
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    height: 70px;
+    margin-bottom: 10px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-loader.large
+{
+    height: 110px;
+}
+
+@keyframes pulse
+{
+    0% {
+        background-color: #e0e0e0;
+    }
+    50% {
+        background-color: #d0d0d0;
+    }
+    100% {
+        background-color: #e0e0e0;
+    }
+}
+
+/* --- Adicione todo este bloco no final do seu CSS --- */
+
+/* Efeito de hover e borda verde */
+.top-track-highlight, .top-track-grid-item, .list-container .list-item
+{
+    cursor: pointer;
+    /* Adiciona uma borda transparente para evitar que o layout "pule" no hover */
+    border: 1px solid transparent; 
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.top-track-highlight
+{
+    border-color: var(--border-color);
+}
+
+.top-track-grid-item, .list-container .list-item
+{
+    border-bottom: 1px solid var(--border-color);
+}
+
+.top-track-highlight:hover, .top-track-grid-item:hover, .list-container .list-item:hover
+{
+    border-color: var(--spotify-green);
+    transform: translateY(-2px);
+}
+
+
+/* Animação de Texto Deslizante (Marquee) */
+.item-info .item-name, .item-info .item-artist, .item-album, .item-date-added
+{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    position: relative;
+    display: block;
+}
+
+.marquee-wrapper
+{
+    display: inline-block;
+    padding-right: 20px; /* Espaço para o texto sumir suavemente */
+    will-change: transform;
+}
+
+.item-info:hover .marquee-wrapper, .item-album:hover .marquee-wrapper, .item-date-added:hover .marquee-wrapper
+{
+    animation: marquee-scroll 8s linear infinite;
+}
+
+@keyframes marquee-scroll
+{
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+
+/* Estilos do Modal */
+.modal-overlay 
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+}
+
+.modal-overlay:not(.hidden) 
+{
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content 
+{
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay:not(.hidden) .modal-content 
+{
+    transform: scale(1);
+}
+
+.modal-close-btn 
+{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #aaa;
+    cursor: pointer;
+}
+
+#modal-body 
+{
+    display: flex;
+    gap: 20px;
+}
+
+.modal-art 
+{
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.modal-info h2 
+{
+    margin: 0 0 5px 0;
+}
+
+.modal-info p 
+{
+    margin: 0 0 10px 0;
+    color: var(--text-secondary);
+}
+
+.audio-features 
+{
+    margin-top: 20px;
+    width: 100%;
+}
+.feature-item 
+{
+    margin-bottom: 8px;
+}
+.feature-item label 
+{
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+.feature-bar 
+{
+    width: 100%;
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
+.feature-bar-fill 
+{
+    height: 100%;
+    background-color: var(--spotify-green);
+    border-radius: 5px;
+}
+.modal-copy-btn 
+{
+    margin-top: 20px;
+    padding: 10px 15px;
+    border: none;
+    background-color: var(--text-primary);
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.playlist-instance-container {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - gabrielvc</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <main class="main-content">
+            <header class="main-header">
+                <!-- Foto de perfil será inserida aqui via JS -->
+                <h1>Spotify <span class="highlight">gabrielvc</span></h1>
+            </header>
+
+            <section id="top-tracks-section" class="content-section">
+                <h2>Mais Tocadas do Mês</h2>
+                <!-- Novo layout para Top Tracks -->
+                <div id="top-track-highlight-container"></div>
+                <div id="top-tracks-grid-container"></div>
+                
+                <!-- Placeholder de carregamento -->
+                <div id="top-tracks-loader">
+                    <div class="skeleton-loader large"></div>
+                </div>
+            </section>
+
+            <section id="playlist-section" class="content-section">
+                <h2>Playlist em Destaque</h2>
+                <div id="playlist-container">
+                    <div class="skeleton-loader large"></div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fab fa-spotify"></i>
+                <h3>Spotify</h3>
+            </div>
+            <div id="player-container" class="player-wrapper hidden">
+                <div class="art-container">
+                    <img id="album-art" src="" alt="Capa do Álbum">
+                </div>
+                <div class="info-container">
+                    <div class="song-title-wrapper">
+                        <h2 id="song-name">Nome da Música</h2>
+                        <span></span>
+                    </div>
+                    <p id="artist-name">Nome do Artista</p>
+                    <div class="progress-bar-wrapper">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <div class="time-container">
+                        <span id="current-time">0:00</span>
+                        <span id="total-time">0:00</span>
+                    </div>
+                    <button id="share-button" class="share-button" title="Copiar link da música">
+                        <i class="fas fa-share-square"></i> Copiar Link
+                    </button>
+                </div>
+            </div>
+            <div id="offline-container" class="player-wrapper">
+                <p>Nada a tocar no momento...</p>
+            </div>
+        </aside>
+    </div>
+    <div id="track-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+        <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+        <div id="modal-body">
+        </div>
+    </div>
+</div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
+
