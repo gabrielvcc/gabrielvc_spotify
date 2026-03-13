@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Elementos da UI ---
     const playerContainer = document.getElementById('player-container');
     const offlineContainer = document.getElementById('offline-container');
     const albumArt = document.getElementById('album-art');
@@ -257,43 +256,36 @@ const timeRangeDisplay = document.getElementById('time-range-display');
 const timeRangeText = document.getElementById('time-range-text');
 const timeRangeMenu = document.getElementById('time-range-menu');
 
-if (timeRangeDisplay) { // Garante que o código só rode se os elementos existirem
-    // Mostra/esconde o menu ao clicar no botão de texto
+if (timeRangeDisplay) {
     timeRangeDisplay.addEventListener('click', (event) => {
         event.stopPropagation();
         timeRangeMenu.classList.toggle('active');
-        timeRangeDisplay.classList.toggle('active'); // Para a animação da setinha
+        timeRangeDisplay.classList.toggle('active');
     });
 
-    // Ação ao clicar em um botão do menu
     timeRangeMenu.addEventListener('click', (event) => {
         if (event.target.tagName === 'BUTTON') {
             const selectedRange = event.target.dataset.range;
             const selectedText = event.target.dataset.text;
 
-            // Remove a classe 'active' de todos os botões e adiciona no clicado
             timeRangeMenu.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            // 1. ATUALIZA O TEXTO DO BOTÃO PRINCIPAL
             timeRangeText.textContent = selectedText;
             
-            // 2. Mostra o loader e limpa o conteúdo antigo
             topTracksLoader.style.display = 'block';
             topTrackHighlightContainer.innerHTML = '';
             topTracksGridContainer.innerHTML = '';
             
-            // 3. Busca as novas músicas com o período de tempo escolhido
             fetchTopTracks(selectedRange);
         }
     });
 }
 
-// Fecha o menu se clicar em qualquer outro lugar da página
 document.addEventListener('click', () => {
     if (timeRangeMenu && timeRangeMenu.classList.contains('active')) {
         timeRangeMenu.classList.remove('active');
-        timeRangeDisplay.classList.remove('active'); // Para a animação da setinha
+        timeRangeDisplay.classList.remove('active');
     }
 });
 
